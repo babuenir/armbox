@@ -12,9 +12,9 @@ deb:
 		-d python 				\
 		-d python-bottle			\
 		-d python-jinja2			\
-		-d qemu-system-arm			\
-		-d gcc-arm:i386				\
-		-d "apache | httpd"			\
+		-d qemu					\
+		-d gcc-arm				\
+		-d "apache2 | httpd"			\
 		--description 'Poke and learn ARM instructions.' \
 
 
