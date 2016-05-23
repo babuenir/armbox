@@ -503,7 +503,7 @@ arm-none-eabi-ld -Ttext=0x0 -o prog.elf prog.o
 arm-none-eabi-objcopy -O  binary prog.elf prog.bin
 dd if=/dev/zero of=flash.bin bs=4096 count=4096 > /dev/null 2>&1
 dd if=prog.bin of=flash.bin bs=4096 conv=notrunc > /dev/null 2>&1
-exec qemu-system-arm -M connex -pflash flash.bin -nographic -serial /dev/null -qmp stdio
+exec qemu-system-arm -M connex -pflash flash.bin -nographic -qmp stdio
 """
 
 cmd_qmp_enable = '{ "execute": "qmp_capabilities" }'
