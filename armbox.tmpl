@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Assembly program</title>
+    <style>
+      {% include 'fonts.css' %}
+      {% include 'style.css' %}
+    </style>
+  </head>
+  <body>
+    <div style="width: 100%;">
+      <div class="autocenter" style="width: 1000px;">
+        <form action="/armsim" method="post" style="width: 100%">
+	  <table style="width: 100%">
+            <tr>
+	      <td colspan="2" class="title">ARM Simulator</td>
+	    </tr>
+	    <tr>
+              <td colspan="3" style="text-align: center">
+		<label>Enter Instructions: </label>
+		<input type="text" name="instruction" size="32" value="{{ prog }}"></input>
+		<input class="button" type="submit" value="Execute">
+	      </td>
+	    </tr>
+	    <tr>
+	      <td colspan="2" style="text-align:center">
+		{% if error %}
+		<div class="error"><pre>{{ error }}</pre></div>
+	        {% else %}
+		<div class="error"><br></div>
+	        {% endif %}
+	      </td>
+	    </tr>
+	    <tr><td class="title">Registers</td><td class="title">Memory</td></tr>
+	    <tr>
+	      <td style="padding: 0.5em">
+		<table cellpadding="5" border="0" class="autocenter">
+		  <tr>
+		    <td>R0</td><td><input type="text" name="R00" value="{{ '0x{0:08X}'.format(R00) }}" size="10"/></td>
+		    <td>R1</td><td><input type="text" name="R01" value="{{ '0x{0:08X}'.format(R01) }}" size="10"/></td>
+		  </tr>
+		  <tr>
+		    <td>R2</td><td><input type="text" name="R02" value="{{ '0x{0:08X}'.format(R02) }}" size="10"/></td>
+		    <td>R3</td><td><input type="text" name="R03" value="{{ '0x{0:08X}'.format(R03) }}" size="10"/></td>
+		  </tr>
+		  <tr>
+		    <td>R4</td><td><input type="text" name="R04" value="{{ '0x{0:08X}'.format(R04) }}" size="10"/></td>
+		    <td>R5</td><td><input type="text" name="R05" value="{{ '0x{0:08X}'.format(R05) }}" size="10"/></td>
+		  </tr>
+		  <tr>
+		    <td>R6</td><td><input type="text" name="R06" value="{{ '0x{0:08X}'.format(R06) }}" size="10"/></td>
+		    <td>R7</td><td><input type="text" name="R07" value="{{ '0x{0:08X}'.format(R07) }}" size="10"/></td>
+		  </tr>
+		  <tr>
+		    <td>R8</td><td><input type="text" name="R08" value="{{ '0x{0:08X}'.format(R08) }}" size="10"/></td>
+		    <td>R9</td><td><input type="text" name="R09" value="{{ '0x{0:08X}'.format(R09) }}" size="10"/></td>
+		  </tr>
+		  <tr>
+		    <td>R10</td><td><input type="text" name="R10" value="{{ '0x{0:08X}'.format(R10) }}" size="10"/></td>
+		    <td>R11</td><td><input type="text" name="R11" value="{{ '0x{0:08X}'.format(R11) }}" size="10"/></td>
+		  </tr>
+		  <tr>
+		    <td>R12</td><td><input type="text" name="R12" value="{{ '0x{0:08X}'.format(R12) }}" size="10"/></td>
+		    <td>R13</td><td><input type="text" name="R13" value="{{ '0x{0:08X}'.format(R13) }}" size="10"/></td>
+		  </tr>
+		  <tr>
+		    <td>R14</td><td><input type="text" name="R14" value="{{ '0x{0:08X}'.format(R14) }}" size="10"/></td>
+		    <td>R15</td><td><input type="text" name="R15" value="{{ '0x{0:08X}'.format(R15) }}" size="10" disabled/></td>
+		  </tr>
+		  <tr>
+		    <td colspan="4">Flags:
+		      <input type="checkbox" name="N" {{ 'checked' if N else '' }}/>N
+		      <input type="checkbox" name="Z" {{ 'checked' if Z else '' }}/>Z
+		      <input type="checkbox" name="C" {{ 'checked' if C else '' }}/>C
+		      <input type="checkbox" name="V" {{ 'checked' if V else '' }}/>V
+		    </td>
+		  </tr>
+		</table>
+	      </td>
+	      <td style="padding: 0.5em">
+		<table cellpadding="7" border="0" class="autocenter">
+		  <tr><td><tt>0xA00000000</tt></td>
+		    <td><input type="text" name="memA0000000" value="{{ '0x{0:08X}'.format(memA0000000) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000004" value="{{ '0x{0:08X}'.format(memA0000004) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000008" value="{{ '0x{0:08X}'.format(memA0000008) }}" size="10"/></td>
+		    <td><input type="text" name="memA000000C" value="{{ '0x{0:08X}'.format(memA000000C) }}" size="10"/></td>
+		  </tr>
+		  <tr><td><tt>0xA00000010</tt></td>
+		    <td><input type="text" name="memA0000010" value="{{ '0x{0:08X}'.format(memA0000010) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000014" value="{{ '0x{0:08X}'.format(memA0000014) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000018" value="{{ '0x{0:08X}'.format(memA0000018) }}" size="10"/></td>
+		    <td><input type="text" name="memA000001C" value="{{ '0x{0:08X}'.format(memA000001C) }}" size="10"/></td>
+		  </tr>
+		  <tr><td><tt>0xA00000020</tt></td>
+		    <td><input type="text" name="memA0000020" value="{{ '0x{0:08X}'.format(memA0000020) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000024" value="{{ '0x{0:08X}'.format(memA0000024) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000028" value="{{ '0x{0:08X}'.format(memA0000028) }}" size="10"/></td>
+		    <td><input type="text" name="memA000002C" value="{{ '0x{0:08X}'.format(memA000002C) }}" size="10"/></td>
+		  </tr>
+		  <tr><td><tt>0xA00000030</tt></td>
+		    <td><input type="text" name="memA0000030" value="{{ '0x{0:08X}'.format(memA0000030) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000034" value="{{ '0x{0:08X}'.format(memA0000034) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000038" value="{{ '0x{0:08X}'.format(memA0000038) }}" size="10"/></td>
+		    <td><input type="text" name="memA000003C" value="{{ '0x{0:08X}'.format(memA000003C) }}" size="10"/></td>
+		  </tr>
+		  <tr><td><tt>0xA00000400</tt></td>
+		    <td><input type="text" name="memA0000040" value="{{ '0x{0:08X}'.format(memA0000040) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000044" value="{{ '0x{0:08X}'.format(memA0000044) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000048" value="{{ '0x{0:08X}'.format(memA0000048) }}" size="10"/></td>
+		    <td><input type="text" name="memA000004C" value="{{ '0x{0:08X}'.format(memA000004C) }}" size="10"/></td>
+		  </tr>
+		  <tr><td><tt>0xA00000050</tt></td>
+		    <td><input type="text" name="memA0000050" value="{{ '0x{0:08X}'.format(memA0000050) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000054" value="{{ '0x{0:08X}'.format(memA0000054) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000058" value="{{ '0x{0:08X}'.format(memA0000058) }}" size="10"/></td>
+		    <td><input type="text" name="memA000005C" value="{{ '0x{0:08X}'.format(memA000005C) }}" size="10"/></td>
+		  </tr>
+		  <tr><td><tt>0xA00000060</tt></td>
+		    <td><input type="text" name="memA0000060" value="{{ '0x{0:08X}'.format(memA0000060) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000064" value="{{ '0x{0:08X}'.format(memA0000064) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000068" value="{{ '0x{0:08X}'.format(memA0000068) }}" size="10"/></td>
+		    <td><input type="text" name="memA000006C" value="{{ '0x{0:08X}'.format(memA000006C) }}" size="10"/></td>
+		  </tr>
+		  <tr><td><tt>0xA00000070</tt></td>
+		    <td><input type="text" name="memA0000070" value="{{ '0x{0:08X}'.format(memA0000070) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000074" value="{{ '0x{0:08X}'.format(memA0000074) }}" size="10"/></td>
+		    <td><input type="text" name="memA0000078" value="{{ '0x{0:08X}'.format(memA0000078) }}" size="10"/></td>
+		    <td><input type="text" name="memA000007C" value="{{ '0x{0:08X}'.format(memA000007C) }}" size="10"/></td>
+		  </tr>
+		</table>
+	      </td>
+	    </tr>
+	  </table>
+	</form>
+	<p style="text-align:center">
+	  Powered By: Qemu | GNU Toolchain | Python | Bottle
+	</p>
+	<p style="text-align:center">
+	  <img alt="Zilogic Systems" width="160px" src="data:image/png;base64,{% include 'logo.base64' %}" />
+	</p>
+      </div>
+    </div>
+  </body>
+</html>
